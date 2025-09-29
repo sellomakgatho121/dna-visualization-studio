@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Triple Helix | DNA Visualization Studio</title>
+    <link rel="stylesheet" href="css/modern.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        
+        * { font-family: 'Inter', sans-serif; }
+        :root {
+            --background: 222.2 84% 4.9%;
+            --foreground: 210 40% 98%;
+            --primary: 142 76% 36%;
+            --secondary: 217.2 91.2% 59.8%;
+            --muted: 217.2 32.6% 17.5%;
+            --border: 217.2 32.6% 17.5%;
+        }
+        body {
+            margin: 0;
+            padding: 0;
+            background: hsl(var(--background));
+            color: hsl(var(--foreground));
+            overflow: hidden;
+        }
+        .glass {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .custom-scrollbar::-webkit-scrollbar { width: 8px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: rgba(255, 255, 255, 0.05); }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: hsl(var(--primary)); border-radius: 4px; }
+        .sidebar-item { transition: all 0.2s ease; }
+        .sidebar-item:hover { background: rgba(76, 175, 80, 0.1); border-left: 3px solid hsl(var(--primary)); }
+        .sidebar-item.active { background: rgba(76, 175, 80, 0.2); border-left: 3px solid hsl(var(--primary)); }
+        #canvas-container { position: relative; width: 100%; height: 100%; }
+        .control-panel { position: absolute; bottom: 2rem; left: 50%; transform: translateX(-50%); z-index: 10; }
+    </style>
+</head>
+<body>
+    <div class="flex h-screen w-screen">
+        <!-- Sidebar Navigation -->
+        <aside class="w-80 glass border-r border-white/10 flex flex-col">
+            <div class="p-6 border-b border-white/10">
+                <div class="flex items-center gap-3 mb-2">
+                    <svg class="w-8 h-8 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z"></path>
+                    </svg>
+                    <div>
+                        <h1 class="text-xl font-bold text-white">DNA Studio</h1>
+                        <p class="text-xs text-gray-400">Multi-Strand Explorer</p>
+                    </div>
+                </div>
+            </div>
+            <nav class="flex-1 overflow-y-auto custom-scrollbar p-4">
+                <div class="space-y-1">
+                    <a href="modern-index.html" class="sidebar-item flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium text-white">
+                        <span class="flex items-center justify-center w-8 h-8 rounded-full bg-green-500/20 text-green-500 font-bold">2</span>
+                        <div class="flex-1">
+                            <div class="font-semibold">Double Helix</div>
+                            <div class="text-xs text-gray-400">Classic two-strand DNA structure</div>
+                        </div>
+                    </a>
+
+                    <a href="modern-triple.html" class="sidebar-item active flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium text-white">
+                        <span class="flex items-center justify-center w-8 h-8 rounded-full bg-blue-500/20 text-blue-500 font-bold">3</span>
+                        <div class="flex-1">
+                            <div class="font-semibold">Triple Helix</div>
+                            <div class="text-xs text-gray-400">Three-strand DNA structure</div>
+                        </div>
+                    </a>
+
+                    <a href="modern-4-strand.html" class="sidebar-item flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium text-white">
+                        <span class="flex items-center justify-center w-8 h-8 rounded-full bg-orange-500/20 text-orange-500 font-bold">4</span>
+                        <div class="flex-1">
+                            <div class="font-semibold">G-Quadruplex</div>
+                            <div class="text-xs text-gray-400">Four-strand DNA structure</div>
+                        </div>
+                    </a>
+
+                    <a href="modern-5-strand.html" class="sidebar-item flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium text-white">
+                        <span class="flex items-center justify-center w-8 h-8 rounded-full bg-purple-500/20 text-purple-500 font-bold">5</span>
+                        <div class="flex-1">
+                            <div class="font-semibold">Pentaplex</div>
+                            <div class="text-xs text-gray-400">Five-strand DNA structure</div>
+                        </div>
+                    </a>
+
+                    <a href="modern-6-strand.html" class="sidebar-item flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium text-white">
+                        <span class="flex items-center justify-center w-8 h-8 rounded-full bg-pink-500/20 text-pink-500 font-bold">6</span>
+                        <div class="flex-1">
+                            <div class="font-semibold">6-Strand DNA</div>
+                            <div class="text-xs text-gray-400">Hexagonal pattern structure</div>
+                        </div>
+                    </a>
+
+                    <a href="modern-7-strand.html" class="sidebar-item flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium text-white">
+                        <span class="flex items-center justify-center w-8 h-8 rounded-full bg-lime-500/20 text-lime-500 font-bold">7</span>
+                        <div class="flex-1">
+                            <div class="font-semibold">7-Strand DNA</div>
+                            <div class="text-xs text-gray-400">Heptagonal pattern structure</div>
+                        </div>
+                    </a>
+
+                    <a href="modern-8-strand.html" class="sidebar-item flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium text-white">
+                        <span class="flex items-center justify-center w-8 h-8 rounded-full bg-cyan-500/20 text-cyan-500 font-bold">8</span>
+                        <div class="flex-1">
+                            <div class="font-semibold">8-Strand DNA</div>
+                            <div class="text-xs text-gray-400">Octagonal pattern structure</div>
+                        </div>
+                    </a>
+
+                    <a href="modern-9-strand.html" class="sidebar-item flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium text-white">
+                        <span class="flex items-center justify-center w-8 h-8 rounded-full bg-indigo-500/20 text-indigo-500 font-bold">9</span>
+                        <div class="flex-1">
+                            <div class="font-semibold">9-Strand DNA</div>
+                            <div class="text-xs text-gray-400">Nonagonal pattern structure</div>
+                        </div>
+                    </a>
+
+                    <a href="modern-10-strand.html" class="sidebar-item flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium text-white">
+                        <span class="flex items-center justify-center w-8 h-8 rounded-full bg-yellow-500/20 text-yellow-500 font-bold">10</span>
+                        <div class="flex-1">
+                            <div class="font-semibold">10-Strand DNA</div>
+                            <div class="text-xs text-gray-400">Decagonal pattern structure</div>
+                        </div>
+                    </a>
+
+                    <a href="modern-11-strand.html" class="sidebar-item flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium text-white">
+                        <span class="flex items-center justify-center w-8 h-8 rounded-full bg-red-500/20 text-red-500 font-bold">11</span>
+                        <div class="flex-1">
+                            <div class="font-semibold">11-Strand DNA</div>
+                            <div class="text-xs text-gray-400">Complex multi-strand structure</div>
+                        </div>
+                    </a>
+
+                    <a href="modern-12-strand.html" class="sidebar-item flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium text-white">
+                        <span class="flex items-center justify-center w-8 h-8 rounded-full bg-emerald-500/20 text-emerald-500 font-bold">12</span>
+                        <div class="flex-1">
+                            <div class="font-semibold">12-Strand DNA</div>
+                            <div class="text-xs text-gray-400">Dodecagonal pattern structure</div>
+                        </div>
+                    </a>
+                </div>
+            </nav>
+            <div class="p-4 border-t border-white/10">
+                <div class="flex items-center gap-2 text-xs text-gray-400">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                    <span>Interactive 3D DNA Visualization</span>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="flex-1 flex flex-col">
+            <header class="glass border-b border-white/10 px-6 py-4">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <h2 class="text-2xl font-bold text-white">Triple Helix</h2>
+                        <p class="text-sm text-gray-400">Three-strand DNA structure</p>
+                    </div>
+                    <div class="flex items-center gap-4">
+                        <button id="toggleRotation" class="glass px-4 py-2 rounded-lg text-sm font-medium text-white hover:bg-white/10 transition-all">
+                            <svg class="w-5 h-5 inline-block mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 9v6m4-6v6m7-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                            Pause
+                        </button>
+                        <button id="resetView" class="glass px-4 py-2 rounded-lg text-sm font-medium text-white hover:bg-white/10 transition-all">
+                            <svg class="w-5 h-5 inline-block mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
+                            </svg>
+                            Reset
+                        </button>
+                    </div>
+                </div>
+            </header>
+
+            <div class="flex-1 relative bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900">
+                <div id="canvas-container">
+                    <canvas id="dna-canvas" class="w-full h-full"></canvas>
+                    <div id="loading" class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-white text-xl">
+                        <div class="flex flex-col items-center gap-4">
+                            <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-green-500"></div>
+                            <span>Loading DNA Structure...</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="control-panel glass rounded-xl px-6 py-4">
+                    <div class="flex items-center gap-6 text-sm text-white">
+                        <div class="flex items-center gap-2">
+                            <svg class="w-5 h-5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 15l-2 5L9 9l11 4-5 2zm0 0l5 5M7.188 2.239l.777 2.897M5.136 7.965l-2.898-.777M13.95 4.05l-2.122 2.122m-5.657 5.656l-2.12 2.122"></path>
+                            </svg>
+                            <span class="font-medium">Click & Drag to Rotate</span>
+                        </div>
+                        <div class="w-px h-6 bg-white/20"></div>
+                        <div class="flex items-center gap-2">
+                            <svg class="w-5 h-5 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM13 10H7"></path>
+                            </svg>
+                            <span class="font-medium">Scroll to Zoom</span>
+                        </div>
+                        <div class="w-px h-6 bg-white/20"></div>
+                        <div class="flex items-center gap-2">
+                            <svg class="w-5 h-5 text-purple-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 11.5V14m0-2.5v-6a1.5 1.5 0 113 0m-3 6a1.5 1.5 0 00-3 0v2a7.5 7.5 0 0015 0v-5a1.5 1.5 0 00-3 0m-6-3V11m0-5.5v-1a1.5 1.5 0 013 0v1m0 0V11m0-5.5a1.5 1.5 0 013 0v3m0 0V11"></path>
+                            </svg>
+                            <span class="font-medium">Right-Click to Pan</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Enhanced Info Panel with Spiritual Data -->
+                <div class="absolute top-6 right-6 glass rounded-xl p-6 max-w-md overflow-y-auto custom-scrollbar" style="max-height: calc(100vh - 200px);">
+                    <h3 class="text-lg font-bold text-white mb-4 flex items-center gap-2">
+                        <span class="flex h-2 w-2">
+                            <span class="animate-ping absolute inline-flex h-2 w-2 rounded-full bg-green-400 opacity-75"></span>
+                            <span class="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
+                        </span>
+                        Triple Helix Information
+                    </h3>
+                    
+                    <!-- Scientific Data -->
+                    <div class="mb-4">
+                        <h4 class="text-sm font-semibold text-green-400 mb-2">📊 Scientific Properties</h4>
+                        <div class="space-y-2 text-sm text-gray-300">
+                            <div class="flex justify-between">
+                                <span class="text-gray-400">Strands:</span>
+                                <span class="font-semibold text-green-500">3</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-gray-400">Type:</span>
+                                <span class="font-semibold">Triplex DNA</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-gray-400">Helix Turn:</span>
+                                <span class="font-semibold">Variable</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-gray-400">Diameter:</span>
+                                <span class="font-semibold">~2.5 nm</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Spiritual/Energetic Data -->
+                    <div class="mb-4 pt-4 border-t border-white/10">
+                        <h4 class="text-sm font-semibold text-purple-400 mb-2">✨ Spiritual Properties</h4>
+                        <div class="space-y-2 text-sm text-gray-300">
+                            <div class="flex justify-between">
+                                <span class="text-gray-400">Dimensions:</span>
+                                <span class="font-semibold">1D-2D-3D</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-gray-400">Harmonic Universe:</span>
+                                <span class="font-semibold text-xs">First (Complete)</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-gray-400">Chakras:</span>
+                                <span class="font-semibold text-xs">Root, Sacral, Solar Plexus</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-gray-400">Consciousness:</span>
+                                <span class="font-semibold text-xs">Personality Matrix</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Description -->
+                    <div class="pt-4 border-t border-white/10">
+                        <h4 class="text-sm font-semibold text-blue-400 mb-2">📖 Overview</h4>
+                        <p class="text-xs text-gray-400 leading-relaxed mb-3">
+                            Three-strand DNA activation represents the completion of the First Harmonic Universe, integrating physical, emotional, and mental bodies into unified consciousness.
+                        </p>
+                    </div>
+
+                    <!-- Key Points -->
+                    <div class="pt-4 border-t border-white/10">
+                        <h4 class="text-sm font-semibold text-cyan-400 mb-2">🔑 Key Points</h4>
+                        <ul class="text-xs text-gray-400 space-y-1.5 leading-relaxed">
+                            <li class="flex items-start gap-2">
+                                <span class="text-green-500 mt-0.5">•</span>
+                                <span>Completes the personality matrix integration</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <span class="text-green-500 mt-0.5">•</span>
+                                <span>Activates solar plexus and personal power center</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <span class="text-green-500 mt-0.5">•</span>
+                                <span>Bridges physical and emotional consciousness</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <span class="text-green-500 mt-0.5">•</span>
+                                <span>Enables basic psychic sensitivity</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- Ascension Glossary Info -->
+                    <div class="pt-4 border-t border-white/10">
+                        <h4 class="text-sm font-semibold text-yellow-400 mb-2">🌟 Ascension Glossary</h4>
+                        <p class="text-xs text-gray-400 leading-relaxed">
+                            In the First Harmonic Universe 1D-2D-3D exists the three layers of the personality matrix or incarnated human. Triple helix activation unifies these three layers.
+                        </p>
+                    </div>
+
+                    <!-- Energetic Synthesis Info -->
+                    <div class="pt-4 border-t border-white/10">
+                        <h4 class="text-sm font-semibold text-pink-400 mb-2">⚡ Energetic Synthesis</h4>
+                        <p class="text-xs text-gray-400 leading-relaxed">
+                            The 3-strand activation represents the first major milestone in DNA assembly, completing the incarnate identity level. This allows for greater emotional intelligence and mental clarity.
+                        </p>
+                    </div>
+
+                    <!-- Activation Info -->
+                    <div class="pt-4 border-t border-white/10">
+                        <h4 class="text-sm font-semibold text-orange-400 mb-2">🔥 Activation Path</h4>
+                        <p class="text-xs text-gray-400 leading-relaxed">
+                            Achieved through emotional healing, mental clarity practices, and integration of shadow aspects. Requires clearing of 3D timeline blockages.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/build/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/examples/js/controls/OrbitControls.js"></script>
+    <script>
+        const STRAND_COUNT = 3;
+    </script>
+    <script src="js/modern-multi-strand.js"></script>
+</body>
+</html>
