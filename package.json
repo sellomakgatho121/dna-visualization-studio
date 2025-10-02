@@ -1,0 +1,27 @@
+{
+  "$schema": "https://json.schemastore.org/package.json",
+  "name": "dna-visualization-modern",
+  "version": "1.0.0",
+  "description": "Modern Multi-Strand DNA Visualization with Three.js and Tailwind CSS",
+  "type": "module",
+  "scripts": {
+    "start": "python3 -m http.server 8080",
+    "dev": "python3 -m http.server 8080",
+    "serve": "npx http-server -p 8080 -c-1"
+  },
+  "keywords": [
+    "dna",
+    "visualization",
+    "threejs",
+    "3d",
+    "biology",
+    "genetics",
+    "tailwindcss"
+  ],
+  "author": "",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": ""
+  }
+}
