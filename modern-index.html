@@ -91,10 +91,117 @@
         #canvas-container { position: relative; width: 100%; height: 100%; }
         .control-panel { position: absolute; bottom: 2rem; left: 50%; transform: translateX(-50%); z-index: 10; }
 
+        /* Collapsible Sidebar */
+        .sidebar-collapsed {
+            width: 60px !important;
+            transition: width 0.3s ease;
+        }
+        
+        .sidebar-collapsed .sidebar-content {
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+        
+        .sidebar-toggle {
+            position: absolute;
+            top: 1rem;
+            right: -15px;
+            width: 30px;
+            height: 30px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+        
+        .sidebar-toggle:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: scale(1.1);
+        }
+        
+        .sidebar-toggle svg {
+            transition: transform 0.3s ease;
+        }
+        
+        .sidebar-collapsed .sidebar-toggle svg {
+            transform: rotate(180deg);
+        }
+
+        /* Floating Info Panel */
+        .info-panel-floating {
+            position: fixed;
+            top: 2rem;
+            right: 2rem;
+            width: 320px;
+            max-height: calc(100vh - 4rem);
+            z-index: 100;
+            cursor: move;
+            transition: all 0.3s ease;
+        }
+        
+        .info-panel-minimized {
+            height: 60px;
+            overflow: hidden;
+        }
+        
+        .info-panel-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            cursor: pointer;
+        }
+        
+        .info-panel-content {
+            max-height: calc(100vh - 8rem);
+            overflow-y: auto;
+            padding: 1rem;
+        }
+        
+        .info-panel-minimized .info-panel-content {
+            display: none;
+        }
+
+        /* Minimal Control Panel */
+        .control-panel-minimal {
+            position: fixed;
+            bottom: 2rem;
+            left: 2rem;
+            display: flex;
+            gap: 0.5rem;
+            z-index: 100;
+        }
+        
+        .control-btn-minimal {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+        
+        .control-btn-minimal:hover {
+            transform: scale(1.1);
+        }
+
         /* Responsive Design */
         @media (max-width: 1024px) {
             aside {
                 width: 280px;
+            }
+            
+            .info-panel-floating {
+                width: 280px;
+                right: 1rem;
             }
         }
 
@@ -110,11 +217,17 @@
                 overflow-y: auto;
             }
             
-            .control-panel {
+            .info-panel-floating {
+                position: relative;
+                top: auto;
+                right: auto;
+                width: 100%;
+                margin: 1rem;
+            }
+            
+            .control-panel-minimal {
                 bottom: 1rem;
                 left: 1rem;
-                right: 1rem;
-                transform: none;
             }
             
             .glass-intense {
@@ -127,13 +240,12 @@
                 max-height: 150px;
             }
             
-            .control-panel {
-                padding: 0.75rem;
+            .control-panel-minimal {
+                flex-direction: column;
             }
             
-            .control-panel .flex {
-                flex-direction: column;
-                gap: 0.5rem;
+            .info-panel-floating {
+                margin: 0.5rem;
             }
         }
     </style>
@@ -141,19 +253,26 @@
 <body>
     <div class="flex h-screen w-screen">
         <!-- Sidebar Navigation -->
-        <aside class="w-80 glass-intense border-r border-white/20 flex flex-col">
-            <div class="p-6 border-b border-white/10">
-                <div class="flex items-center gap-3 mb-2">
-                    <svg class="w-8 h-8 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z"></path>
-                    </svg>
-                    <div>
-                        <h1 class="text-xl font-bold text-white">DNA Studio</h1>
-                        <p class="text-xs text-gray-400">Multi-Strand Explorer</p>
+        <aside id="sidebar" class="w-80 glass-intense border-r border-white/20 flex flex-col relative">
+            <div class="sidebar-toggle" onclick="toggleSidebar()">
+                <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 19l-7-7 7-7m8 14l-7-7 7-7"></path>
+                </svg>
+            </div>
+            
+            <div class="sidebar-content">
+                <div class="p-6 border-b border-white/10">
+                    <div class="flex items-center gap-3 mb-2">
+                        <svg class="w-8 h-8 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z"></path>
+                        </svg>
+                        <div>
+                            <h1 class="text-xl font-bold text-white">DNA Studio</h1>
+                            <p class="text-xs text-gray-400">Multi-Strand Explorer</p>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <nav class="flex-1 overflow-y-auto custom-scrollbar p-4">
+                <nav class="flex-1 overflow-y-auto custom-scrollbar p-4">
                 <div class="space-y-1">
                     <a href="modern-index.html" class="sidebar-item active flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium text-white">
                         <span class="flex items-center justify-center w-8 h-8 rounded-full bg-green-500/20 text-green-500 font-bold">2</span>
@@ -243,13 +362,14 @@
                         </div>
                     </a>
                 </div>
-            </nav>
-            <div class="p-4 border-t border-white/10">
-                <div class="flex items-center gap-2 text-xs text-gray-400">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                    </svg>
-                    <span>Interactive 3D DNA Visualization</span>
+                </nav>
+                <div class="p-4 border-t border-white/10">
+                    <div class="flex items-center gap-2 text-xs text-gray-400">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                        <span>Interactive 3D DNA Visualization</span>
+                    </div>
                 </div>
             </div>
         </aside>
@@ -290,40 +410,40 @@
                     </div>
                 </div>
 
-                <div class="control-panel glass-intense rounded-2xl px-8 py-5">
-                    <div class="flex items-center gap-6 text-sm text-white">
-                        <div class="flex items-center gap-2">
-                            <svg class="w-5 h-5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 15l-2 5L9 9l11 4-5 2zm0 0l5 5M7.188 2.239l.777 2.897M5.136 7.965l-2.898-.777M13.95 4.05l-2.122 2.122m-5.657 5.656l-2.12 2.122"></path>
-                            </svg>
-                            <span class="font-medium">Click & Drag to Rotate</span>
-                        </div>
-                        <div class="w-px h-6 bg-white/20"></div>
-                        <div class="flex items-center gap-2">
-                            <svg class="w-5 h-5 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM13 10H7"></path>
-                            </svg>
-                            <span class="font-medium">Scroll to Zoom</span>
-                        </div>
-                        <div class="w-px h-6 bg-white/20"></div>
-                        <div class="flex items-center gap-2">
-                            <svg class="w-5 h-5 text-purple-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 11.5V14m0-2.5v-6a1.5 1.5 0 113 0m-3 6a1.5 1.5 0 00-3 0v2a7.5 7.5 0 0015 0v-5a1.5 1.5 0 00-3 0m-6-3V11m0-5.5v-1a1.5 1.5 0 013 0v1m0 0V11m0-5.5a1.5 1.5 0 013 0v3m0 0V11"></path>
-                            </svg>
-                            <span class="font-medium">Right-Click to Pan</span>
-                        </div>
-                    </div>
+                <!-- Minimal Control Panel -->
+                <div class="control-panel-minimal">
+                    <button id="toggleRotation" class="glass-intense control-btn-minimal" title="Toggle Rotation">
+                        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 9v6m4-6v6m7-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                    </button>
+                    <button id="resetView" class="glass-intense control-btn-minimal" title="Reset View">
+                        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
+                        </svg>
+                    </button>
+                    <button class="glass-intense control-btn-minimal" title="Help" onclick="showHelp()">
+                        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                    </button>
                 </div>
 
-                <!-- Enhanced Info Panel with Spiritual Data -->
-                <div class="absolute top-6 right-6 glass-intense rounded-2xl p-8 max-w-md overflow-y-auto custom-scrollbar" style="max-height: calc(100vh - 200px);">
-                    <h3 class="text-lg font-bold text-white mb-4 flex items-center gap-2">
-                        <span class="flex h-2 w-2">
-                            <span class="animate-ping absolute inline-flex h-2 w-2 rounded-full bg-green-400 opacity-75"></span>
-                            <span class="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
-                        </span>
-                        Double Helix Information
-                    </h3>
+                <!-- Floating Info Panel -->
+                <div id="infoPanel" class="info-panel-floating glass-intense rounded-2xl">
+                    <div class="info-panel-header" onclick="toggleInfoPanel()">
+                        <h3 class="text-lg font-bold text-white flex items-center gap-2">
+                            <span class="flex h-2 w-2">
+                                <span class="animate-ping absolute inline-flex h-2 w-2 rounded-full bg-green-400 opacity-75"></span>
+                                <span class="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
+                            </span>
+                            Double Helix Information
+                        </h3>
+                        <svg class="w-5 h-5 text-gray-400 transition-transform" id="infoToggleIcon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                        </svg>
+                    </div>
+                    <div class="info-panel-content custom-scrollbar">
                     
                     <!-- Scientific Data -->
                     <div class="mb-4">
@@ -430,8 +550,122 @@
         </main>
     </div>
 
+    <!-- Help Modal -->
+    <div id="helpModal" class="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 hidden">
+        <div class="flex items-center justify-center min-h-screen p-4">
+            <div class="glass-intense rounded-2xl p-8 max-w-md w-full">
+                <div class="flex items-center justify-between mb-6">
+                    <h3 class="text-xl font-bold text-white">Controls Help</h3>
+                    <button onclick="hideHelp()" class="text-gray-400 hover:text-white">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                        </svg>
+                    </button>
+                </div>
+                <div class="space-y-4 text-sm text-gray-300">
+                    <div class="flex items-center gap-3">
+                        <svg class="w-5 h-5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 15l-2 5L9 9l11 4-5 2zm0 0l5 5M7.188 2.239l.777 2.897M5.136 7.965l-2.898-.777M13.95 4.05l-2.122 2.122m-5.657 5.656l-2.12 2.122"></path>
+                        </svg>
+                        <span><strong>Click & Drag:</strong> Rotate the DNA structure</span>
+                    </div>
+                    <div class="flex items-center gap-3">
+                        <svg class="w-5 h-5 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM13 10H7"></path>
+                        </svg>
+                        <span><strong>Scroll:</strong> Zoom in/out</span>
+                    </div>
+                    <div class="flex items-center gap-3">
+                        <svg class="w-5 h-5 text-purple-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 11.5V14m0-2.5v-6a1.5 1.5 0 113 0m-3 6a1.5 1.5 0 00-3 0v2a7.5 7.5 0 0015 0v-5a1.5 1.5 0 00-3 0m-6-3V11m0-5.5v-1a1.5 1.5 0 013 0v1m0 0V11m0-5.5a1.5 1.5 0 013 0v3m0 0V11"></path>
+                        </svg>
+                        <span><strong>Right-Click & Drag:</strong> Pan the view</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/build/three.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/examples/js/controls/OrbitControls.js"></script>
     <script src="js/modern-dna.js"></script>
+    
+    <script>
+        // Sidebar toggle functionality
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            sidebar.classList.toggle('sidebar-collapsed');
+        }
+
+        // Info panel toggle functionality
+        function toggleInfoPanel() {
+            const panel = document.getElementById('infoPanel');
+            const icon = document.getElementById('infoToggleIcon');
+            panel.classList.toggle('info-panel-minimized');
+            icon.style.transform = panel.classList.contains('info-panel-minimized') ? 'rotate(180deg)' : 'rotate(0deg)';
+        }
+
+        // Help modal functionality
+        function showHelp() {
+            document.getElementById('helpModal').classList.remove('hidden');
+        }
+
+        function hideHelp() {
+            document.getElementById('helpModal').classList.add('hidden');
+        }
+
+        // Make info panel draggable
+        let isDragging = false;
+        let currentX;
+        let currentY;
+        let initialX;
+        let initialY;
+        let xOffset = 0;
+        let yOffset = 0;
+
+        const infoPanel = document.getElementById('infoPanel');
+        const infoHeader = infoPanel.querySelector('.info-panel-header');
+
+        infoHeader.addEventListener('mousedown', dragStart);
+        document.addEventListener('mousemove', drag);
+        document.addEventListener('mouseup', dragEnd);
+
+        function dragStart(e) {
+            if (e.target.closest('svg')) return; // Don't drag when clicking the toggle icon
+            
+            initialX = e.clientX - xOffset;
+            initialY = e.clientY - yOffset;
+
+            if (e.target === infoHeader || infoHeader.contains(e.target)) {
+                isDragging = true;
+            }
+        }
+
+        function drag(e) {
+            if (isDragging) {
+                e.preventDefault();
+                currentX = e.clientX - initialX;
+                currentY = e.clientY - initialY;
+
+                xOffset = currentX;
+                yOffset = currentY;
+
+                infoPanel.style.transform = `translate3d(${currentX}px, ${currentY}px, 0)`;
+            }
+        }
+
+        function dragEnd(e) {
+            initialX = currentX;
+            initialY = currentY;
+            isDragging = false;
+        }
+
+        // Close help modal when clicking outside
+        document.getElementById('helpModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                hideHelp();
+            }
+        });
+    </script>
 </body>
 </html>
