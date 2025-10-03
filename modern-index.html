@@ -21,15 +21,66 @@
         body {
             margin: 0;
             padding: 0;
-            background: hsl(var(--background));
+            background: 
+                radial-gradient(circle at 20% 50%, rgba(120, 119, 198, 0.3) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(255, 119, 198, 0.3) 0%, transparent 50%),
+                radial-gradient(circle at 40% 80%, rgba(120, 219, 255, 0.2) 0%, transparent 50%),
+                linear-gradient(135deg, hsl(var(--background)) 0%, #1a1a2e 30%, #2a1a3e 60%, hsl(var(--background)) 100%);
+            background-size: 400% 400%, 300% 300%, 500% 500%, 400% 400%;
+            animation: liquid-gradient 20s ease infinite;
             color: hsl(var(--foreground));
             overflow: hidden;
+            position: relative;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.02) 0%, transparent 50%),
+                radial-gradient(circle at 70% 70%, rgba(255, 255, 255, 0.01) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        @keyframes liquid-gradient {
+            0%, 100% { 
+                background-position: 0% 50%, 0% 0%, 0% 100%, 0% 50%; 
+            }
+            25% { 
+                background-position: 100% 0%, 50% 50%, 25% 0%, 25% 25%; 
+            }
+            50% { 
+                background-position: 50% 100%, 100% 100%, 50% 50%, 50% 50%; 
+            }
+            75% { 
+                background-position: 0% 50%, 0% 50%, 75% 100%, 75% 75%; 
+            }
         }
         .glass {
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(20px) saturate(180%);
+            -webkit-backdrop-filter: blur(20px) saturate(180%);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            box-shadow: 
+                0 8px 32px rgba(0, 0, 0, 0.3),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1),
+                inset 0 -1px 0 rgba(255, 255, 255, 0.05);
+        }
+
+        .glass-intense {
+            background: rgba(255, 255, 255, 0.12);
+            backdrop-filter: blur(25px) saturate(200%);
+            -webkit-backdrop-filter: blur(25px) saturate(200%);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 
+                0 12px 40px rgba(0, 0, 0, 0.4),
+                inset 0 1px 0 rgba(255, 255, 255, 0.15),
+                inset 0 -1px 0 rgba(255, 255, 255, 0.08);
         }
         .custom-scrollbar::-webkit-scrollbar { width: 8px; }
         .custom-scrollbar::-webkit-scrollbar-track { background: rgba(255, 255, 255, 0.05); }
@@ -39,12 +90,58 @@
         .sidebar-item.active { background: rgba(76, 175, 80, 0.2); border-left: 3px solid hsl(var(--primary)); }
         #canvas-container { position: relative; width: 100%; height: 100%; }
         .control-panel { position: absolute; bottom: 2rem; left: 50%; transform: translateX(-50%); z-index: 10; }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            aside {
+                width: 280px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .flex {
+                flex-direction: column;
+            }
+            
+            aside {
+                width: 100%;
+                height: auto;
+                max-height: 200px;
+                overflow-y: auto;
+            }
+            
+            .control-panel {
+                bottom: 1rem;
+                left: 1rem;
+                right: 1rem;
+                transform: none;
+            }
+            
+            .glass-intense {
+                padding: 1rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            aside {
+                max-height: 150px;
+            }
+            
+            .control-panel {
+                padding: 0.75rem;
+            }
+            
+            .control-panel .flex {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+        }
     </style>
 </head>
 <body>
     <div class="flex h-screen w-screen">
         <!-- Sidebar Navigation -->
-        <aside class="w-80 glass border-r border-white/10 flex flex-col">
+        <aside class="w-80 glass-intense border-r border-white/20 flex flex-col">
             <div class="p-6 border-b border-white/10">
                 <div class="flex items-center gap-3 mb-2">
                     <svg class="w-8 h-8 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -159,21 +256,21 @@
 
         <!-- Main Content Area -->
         <main class="flex-1 flex flex-col">
-            <header class="glass border-b border-white/10 px-6 py-4">
+            <header class="glass-intense border-b border-white/20 px-6 py-4">
                 <div class="flex items-center justify-between">
                     <div>
                         <h2 class="text-2xl font-bold text-white">Double Helix</h2>
                         <p class="text-sm text-gray-400">Classic two-strand DNA structure</p>
                     </div>
                     <div class="flex items-center gap-4">
-                        <button id="toggleRotation" class="glass px-4 py-2 rounded-lg text-sm font-medium text-white hover:bg-white/10 transition-all">
-                            <svg class="w-5 h-5 inline-block mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <button id="toggleRotation" class="glass-intense px-6 py-3 rounded-xl text-sm font-semibold text-white hover:bg-white/10 transition-all duration-300 group">
+                            <svg class="w-5 h-5 inline-block mr-2 transition-transform group-hover:scale-110" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 9v6m4-6v6m7-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                             </svg>
                             Pause
                         </button>
-                        <button id="resetView" class="glass px-4 py-2 rounded-lg text-sm font-medium text-white hover:bg-white/10 transition-all">
-                            <svg class="w-5 h-5 inline-block mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <button id="resetView" class="glass-intense px-6 py-3 rounded-xl text-sm font-semibold text-white hover:bg-white/10 transition-all duration-300 group">
+                            <svg class="w-5 h-5 inline-block mr-2 transition-transform group-hover:scale-110" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
                             </svg>
                             Reset
@@ -193,7 +290,7 @@
                     </div>
                 </div>
 
-                <div class="control-panel glass rounded-xl px-6 py-4">
+                <div class="control-panel glass-intense rounded-2xl px-8 py-5">
                     <div class="flex items-center gap-6 text-sm text-white">
                         <div class="flex items-center gap-2">
                             <svg class="w-5 h-5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -219,7 +316,7 @@
                 </div>
 
                 <!-- Enhanced Info Panel with Spiritual Data -->
-                <div class="absolute top-6 right-6 glass rounded-xl p-6 max-w-md overflow-y-auto custom-scrollbar" style="max-height: calc(100vh - 200px);">
+                <div class="absolute top-6 right-6 glass-intense rounded-2xl p-8 max-w-md overflow-y-auto custom-scrollbar" style="max-height: calc(100vh - 200px);">
                     <h3 class="text-lg font-bold text-white mb-4 flex items-center gap-2">
                         <span class="flex h-2 w-2">
                             <span class="animate-ping absolute inline-flex h-2 w-2 rounded-full bg-green-400 opacity-75"></span>
