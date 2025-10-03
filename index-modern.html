@@ -138,63 +138,75 @@
     <!-- Hero Section -->
     <div class="container mx-auto px-6 py-12">
         <!-- Header -->
-        <header class="text-center mb-16">
-            <div class="inline-flex items-center gap-3 mb-6">
-                <svg class="w-16 h-16 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z"></path>
-                </svg>
+        <header class="text-center mb-20">
+            <div class="inline-flex items-center gap-4 mb-8 floating">
+                <div class="relative">
+                    <div class="absolute inset-0 bg-green-500/20 rounded-full blur-xl"></div>
+                    <svg class="w-20 h-20 text-green-500 relative z-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z"></path>
+                    </svg>
+                </div>
             </div>
-            <h1 class="text-6xl font-bold mb-4 bg-gradient-to-r from-green-400 to-blue-500 bg-clip-text text-transparent">
+            <h1 class="text-7xl font-bold mb-6 bg-gradient-to-r from-green-400 via-blue-500 to-purple-600 bg-clip-text text-transparent leading-tight">
                 DNA Visualization Studio
             </h1>
-            <p class="text-xl text-gray-400 max-w-2xl mx-auto">
-                Explore multi-strand DNA structures in stunning 3D with our completely redesigned modern interface
+            <p class="text-2xl text-gray-300 max-w-3xl mx-auto leading-relaxed mb-12">
+                Explore multi-strand DNA structures in stunning 3D with our completely redesigned modern interface inspired by Apple's liquid glass design
             </p>
-            <div class="mt-8 flex gap-4 justify-center">
-                <a href="modern-index.html" class="glass glow px-8 py-4 rounded-xl font-semibold text-lg hover:bg-green-500/20 transition-all inline-flex items-center gap-2">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <div class="mt-12 flex gap-6 justify-center">
+                <a href="modern-index.html" class="glass-intense glow px-10 py-5 rounded-2xl font-semibold text-xl hover:bg-green-500/20 transition-all duration-500 inline-flex items-center gap-3 group">
+                    <svg class="w-7 h-7 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
                     </svg>
                     Launch Studio
                 </a>
-                <a href="#features" class="glass px-8 py-4 rounded-xl font-semibold text-lg hover:bg-white/10 transition-all">
-                    Learn More
+                <a href="#features" class="glass px-10 py-5 rounded-2xl font-semibold text-xl hover:bg-white/10 transition-all duration-500 group">
+                    <span class="group-hover:scale-105 transition-transform inline-block">Learn More</span>
                 </a>
             </div>
         </header>
 
         <!-- Features Grid -->
-        <section id="features" class="mb-16">
-            <h2 class="text-4xl font-bold text-center mb-12">✨ New Features</h2>
-            <div class="grid md:grid-cols-3 gap-6">
-                <div class="glass card-hover rounded-2xl p-8">
-                    <div class="w-12 h-12 bg-green-500/20 rounded-xl flex items-center justify-center mb-4">
-                        <svg class="w-6 h-6 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01"></path>
-                        </svg>
+        <section id="features" class="mb-20">
+            <h2 class="text-5xl font-bold text-center mb-16 bg-gradient-to-r from-white via-gray-200 to-white bg-clip-text text-transparent">✨ New Features</h2>
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="glass-intense card-hover rounded-3xl p-10 relative overflow-hidden group">
+                    <div class="absolute inset-0 bg-gradient-to-br from-green-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                    <div class="relative z-10">
+                        <div class="w-16 h-16 bg-gradient-to-br from-green-400/30 to-green-600/30 rounded-2xl flex items-center justify-center mb-6 backdrop-blur-sm border border-green-400/20">
+                            <svg class="w-8 h-8 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01"></path>
+                            </svg>
+                        </div>
+                        <h3 class="text-2xl font-bold mb-4 text-white">Liquid Glass Design</h3>
+                        <p class="text-gray-300 text-lg leading-relaxed">Advanced glass morphism with Apple-inspired transparency, blur effects, and subtle gradients for a premium feel</p>
                     </div>
-                    <h3 class="text-xl font-bold mb-2">Modern Design</h3>
-                    <p class="text-gray-400">Glass morphism, dark theme, and smooth animations inspired by shadcn/ui</p>
                 </div>
 
-                <div class="glass card-hover rounded-2xl p-8">
-                    <div class="w-12 h-12 bg-blue-500/20 rounded-xl flex items-center justify-center mb-4">
-                        <svg class="w-6 h-6 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
-                        </svg>
+                <div class="glass-intense card-hover rounded-3xl p-10 relative overflow-hidden group">
+                    <div class="absolute inset-0 bg-gradient-to-br from-blue-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                    <div class="relative z-10">
+                        <div class="w-16 h-16 bg-gradient-to-br from-blue-400/30 to-blue-600/30 rounded-2xl flex items-center justify-center mb-6 backdrop-blur-sm border border-blue-400/20">
+                            <svg class="w-8 h-8 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                            </svg>
+                        </div>
+                        <h3 class="text-2xl font-bold mb-4 text-white">Enhanced 3D Rendering</h3>
+                        <p class="text-gray-300 text-lg leading-relaxed">Advanced lighting, realistic shadows, and emissive materials with WebGL optimization for stunning visuals</p>
                     </div>
-                    <h3 class="text-xl font-bold mb-2">Enhanced 3D</h3>
-                    <p class="text-gray-400">Better lighting, shadows, and emissive materials for stunning visuals</p>
                 </div>
 
-                <div class="glass card-hover rounded-2xl p-8">
-                    <div class="w-12 h-12 bg-purple-500/20 rounded-xl flex items-center justify-center mb-4">
-                        <svg class="w-6 h-6 text-purple-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"></path>
-                        </svg>
+                <div class="glass-intense card-hover rounded-3xl p-10 relative overflow-hidden group">
+                    <div class="absolute inset-0 bg-gradient-to-br from-purple-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                    <div class="relative z-10">
+                        <div class="w-16 h-16 bg-gradient-to-br from-purple-400/30 to-purple-600/30 rounded-2xl flex items-center justify-center mb-6 backdrop-blur-sm border border-purple-400/20">
+                            <svg class="w-8 h-8 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"></path>
+                            </svg>
+                        </div>
+                        <h3 class="text-2xl font-bold mb-4 text-white">Intuitive Interactions</h3>
+                        <p class="text-gray-300 text-lg leading-relaxed">Smooth micro-interactions, haptic feedback, and responsive controls with visual state indicators</p>
                     </div>
-                    <h3 class="text-xl font-bold mb-2">Interactive Controls</h3>
-                    <p class="text-gray-400">Intuitive play/pause, reset, and navigation with visual feedback</p>
                 </div>
             </div>
         </section>
